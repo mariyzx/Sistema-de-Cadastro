@@ -109,6 +109,12 @@ public class Main {
         menu(scanner, perguntas);
     }
 
+    public static void deleteQuestion(Scanner scanner, List<String> perguntas) {
+        System.out.println("Qual pergunta deseja deletar?");
+        perguntas.remove(scanner.nextInt() - 1);
+        menu(scanner, perguntas);
+    }
+
     public static void menu(Scanner menu, List<String> questions) {
         while (true) {
             System.out.println("------SISTEMA DE CADASTRO------");
@@ -129,7 +135,7 @@ public class Main {
                 createNewQuestion(menu, questions);
                 break;
             } else if (menuOption == 4) {
-                System.out.println("TO_DO");
+                deleteQuestion(menu, questions);
                 break;
             } else if (menuOption == 5) {
                 System.out.println("TO_DO");
