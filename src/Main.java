@@ -111,8 +111,17 @@ public class Main {
 
     public static void deleteQuestion(Scanner scanner, List<String> perguntas) {
         System.out.println("Qual pergunta deseja deletar?");
-        perguntas.remove(scanner.nextInt() - 1);
+
+        int index = scanner.nextInt() - 1;
+
+        if (index >= 0 && index < perguntas.size() && index > 4) {
+            String removida = perguntas.remove(index);
+            System.out.println("Pergunta \"" + removida + "\" foi deletada.");
+        } else {
+            System.out.println("Só é possível deletar perguntas cadastradas!\n");
+        }
         menu(scanner, perguntas);
+
     }
 
     public static void menu(Scanner menu, List<String> questions) {
