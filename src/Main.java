@@ -1,4 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,16 +79,13 @@ public class Main {
                         num += 1;
                         System.out.println(num + " - " + pergunta);
 
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-
-
-
+        scanner.close();
     }
 
     public static void writeFile(Usuario usuario) {
@@ -102,17 +102,19 @@ public class Main {
         }
     }
 
-    public static void menu() {
+    public static void createNewQuestion(Scanner scanner, List<String> perguntas) {
+        System.out.println("Qual pergunta deseja adicionar?");
+        String newQuestion = scanner.nextLine();
+        perguntas.add(newQuestion);
+        menu(scanner, perguntas);
+    }
 
-        Scanner menu = new Scanner(System.in);
-
+    public static void menu(Scanner menu, List<String> questions) {
         while (true) {
             System.out.println("------SISTEMA DE CADASTRO------");
-            System.out.println("1 - Cadastrar o usuário");
-            System.out.println("2 - Listar todos os usuários cadastrados");
-            System.out.println("3 - Cadastrar nova pergunta no formulário");
-            System.out.println("4 - Deletar pergunta do formulário");
-            System.out.println("5 - Pesquisar usuário por nome ou email ");
+            for (String question : questions) {
+                System.out.println(questions.indexOf(question) + 1 + " - " + question);
+            }
 
             int menuOption = menu.nextInt();
             menu.nextLine();
@@ -124,7 +126,7 @@ public class Main {
                 readAllNames();
                 break;
             } else if (menuOption == 3) {
-                System.out.println("TO_DO");
+                createNewQuestion(menu, questions);
                 break;
             } else if (menuOption == 4) {
                 System.out.println("TO_DO");
@@ -149,6 +151,14 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        menu();
+        
+        Scanner menu = new Scanner(System.in);
+        String[] questions = { "Cadastrar o usuário", "Listar todos os usuários cadastrados",
+                "Cadastrar nova pergunta no formulário", "Deletar pergunta do formulário",
+                "Pesquisar usuário por nome ou email " };
+
+        List<String> questionList = new ArrayList<>(Arrays.asList(questions));
+
+        menu(menu, questionList);
     }
 }
