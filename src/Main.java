@@ -85,7 +85,7 @@ public class Main {
                 }
             }
         }
-        scanner.close();
+
     }
 
     public static void writeFile(Usuario usuario) {
@@ -121,7 +121,48 @@ public class Main {
             System.out.println("Só é possível deletar perguntas cadastradas!\n");
         }
         menu(scanner, perguntas);
+    }
 
+    public static void searchName(Scanner scanner) {
+        System.out.println("Qual nome deseja procurar?");
+        String search = scanner.nextLine();
+        String[] names = {};
+        List<String> namesList = new ArrayList<>(Arrays.asList(names));
+
+        String actualDir = System.getProperty("user.dir");
+        File dir = new File(actualDir);
+        String regex = "^\\d+-[A-Za-z]+\\.TXT$";
+        Pattern pattern = Pattern.compile(regex);
+
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                Matcher matcher = pattern.matcher(file.getName());
+
+                if (matcher.matches()) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
+                        String linha;
+                        StringBuilder usuarioInfo = new StringBuilder();
+    
+                        while ((linha = br.readLine()) != null) {
+                            usuarioInfo.append(linha).append("\n");
+    
+                            if (linha.toLowerCase().contains(search)) {
+                                namesList.add(usuarioInfo.toString());
+                                break;
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            for (String user : namesList) {
+                System.out.println("- " + user);
+            }
+        }        
     }
 
     public static void menu(Scanner menu, List<String> questions) {
@@ -147,7 +188,7 @@ public class Main {
                 deleteQuestion(menu, questions);
                 break;
             } else if (menuOption == 5) {
-                System.out.println("TO_DO");
+                searchName(menu);
                 break;
             } else {
                 System.out.println("OPÇÃO INVALIDA");
@@ -175,5 +216,6 @@ public class Main {
         List<String> questionList = new ArrayList<>(Arrays.asList(questions));
 
         menu(menu, questionList);
+        menu.close();
     }
 }
