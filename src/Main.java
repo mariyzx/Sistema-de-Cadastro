@@ -124,7 +124,7 @@ public class Main {
     }
 
     public static void searchName(Scanner scanner) {
-        System.out.println("Qual nome deseja procurar?");
+        System.out.println("Qual nome, idade ou e-mail que deseja procurar?");
         String search = scanner.nextLine();
         String[] names = {};
         List<String> namesList = new ArrayList<>(Arrays.asList(names));
